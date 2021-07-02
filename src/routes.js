@@ -5,11 +5,16 @@ import {
     Person as PersonIcon
 } from '@material-ui/icons'
 
+import Teams from './Teams';
+import Members from './Members';
+import Tournaments from './Tournaments';
+import Judges from './Judges';
+
 export const ROUTES = [
-    {anchor: 'Турниры', icon: <ReceiptIcon/>, eventListener: () => alert('123')},
-    {anchor: 'Команды', icon: <PeopleIcon />, eventListener: () => alert('123')},
-    {anchor: 'Участники', icon: <PersonIcon />, eventListener: () => alert('123')},
-    {anchor: 'Судьи', icon: <GavelIcon />, eventListener: () => alert('123')},
+    {anchor: 'Турниры', icon: <ReceiptIcon/>, path: '/tournaments', component: <Tournaments/>},
+    {anchor: 'Команды', icon: <PeopleIcon />, path: '/teams', component: <Teams/>},
+    {anchor: 'Участники', icon: <PersonIcon />, path: '/members', component: <Members/>},
+    {anchor: 'Судьи', icon: <GavelIcon />, path: '/judges', component: <Judges/>},
 ];
 
 export default ROUTES;

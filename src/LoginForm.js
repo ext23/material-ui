@@ -8,7 +8,6 @@ export default function LoginForm(props) {
     const [error, setError] = useState(null);
     const [isLoad, setIsLoaded] = useState(false);
     const [items, setItems] = useState({});
-    const [login, setLogin] = useState(null);
     const [isAuth, setAuth] = useState(false);  
   
     function fetchData(e) {
