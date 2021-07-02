@@ -10,11 +10,11 @@ import Members from './Members';
 import Tournaments from './Tournaments';
 import Judges from './Judges';
 
-export const ROUTES = [
+export const Routes = [
     {anchor: 'Турниры', icon: <ReceiptIcon/>, path: '/tournaments', component: <Tournaments/>},
     {anchor: 'Команды', icon: <PeopleIcon />, path: '/teams', component: <Teams/>},
     {anchor: 'Участники', icon: <PersonIcon />, path: '/members', component: <Members/>},
     {anchor: 'Судьи', icon: <GavelIcon />, path: '/judges', component: <Judges/>},
 ];
 
-export default ROUTES;
+export default Routes;

@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import LoginForm from './LoginForm';
-import JudgeModeForm from '../src/judgemodeform';
-import './index.css';
-import ROUTES from './routes';
-import { createStore } from 'redux';
+import LoginForm from './components/LoginForm';
+import MainForm from './components/MainForm';
+import { compose, createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
+import { rootReducer } from './redux/rootReducer';
 
-function App() {
-  const [auth, setAuth] = useState(false);
-  const [userName, setUserName] = useState(null);
-  const [loginData, setLoginData] = useState(
-    {
-      userName: null,
-      matchName: null,
-      someField: null
-    }
-  );
+const store = createStore(rootReducer, compose(
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+));
 
-  function onAuth(isLog, updatedloginData) {
-    setAuth(isLog);
-    if (isLog) {
-      setLoginData(Object.assign({}, loginData, updatedloginData));
-    }
-  }
-
-  if (!auth) {
-    return (<LoginForm onAuth={onAuth} />);
-  }
-
-  return (
-      <JudgeModeForm loginData={loginData} routes={ROUTES} />
-  );
+const DummyApp = (props) => {  
+  if (!props.isAuth) return (<LoginForm />);
+  else return <MainForm />;
 }
 
+const mapStateToProps = state => {
+  return {
+    isAuth: state.user.isAuth,
+  };
+}
+
+const App = connect(mapStateToProps, null)(DummyApp)
+
 ReactDOM.render(
-  <App />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );

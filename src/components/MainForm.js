@@ -1,31 +1,31 @@
 import { cloneElement, React, useState } from 'react'
 import { AppBar, Typography, Toolbar, createMuiTheme, IconButton, Button } from '@material-ui/core';
-import Drawer from '../src/Drawer'
+import Drawer from './Drawer'
 import { Menu as MenuIcon } from '@material-ui/icons'
-import { useStyles } from './style'
+import { useStyles } from '../style'
+import { connect } from 'react-redux';
+import appRoutes from './Routes';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   BrowserRouter
 } from "react-router-dom";
 
-export default function JudgeModeForm(props) {
+const MainForm = (props) => {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const routes = props.routes.map((item) => {
-    const component = cloneElement(item.component, {loginData: props.loginData});
-    return <Route path={item.path}>{component}</Route>;
+  
+  const routes = appRoutes.map((item) => {    
+    return <Route path={item.path}>{cloneElement(item.component)}</Route>;
     }
   );
 
   return (
     <BrowserRouter>
       <div>
-        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(!drawerOpen)} routes={props.routes}>
+       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(!drawerOpen)} routes={appRoutes}> 
         </Drawer>
         <AppBar position="static">
           <Toolbar>
@@ -33,14 +33,22 @@ export default function JudgeModeForm(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Добро пожаловать, {props.loginData.userName}!
+              Добро пожаловать {props.userName}!
             </Typography>
           </Toolbar>
         </AppBar>
         <Switch>
           {routes}
-        </Switch>
+        </Switch>        
       </div>
     </BrowserRouter>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    userName: state.user.userName,
+  };
+}
+
+export default connect(mapStateToProps, null)(MainForm);
