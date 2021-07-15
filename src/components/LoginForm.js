@@ -4,11 +4,18 @@ import Button from '@material-ui/core/Button';
 import { Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { createUser, initUser } from '../redux/action';
+import { useGetSessionQuery } from '../api';
 
 function LoginForm(props) {
     const classes = useStyles();
-    const [error, setError] = useState(null);    
-    const [credentials, setCredentials] = useState({});    
+    //const [error, setError] = useState(null);    
+    const [credentials, setCredentials] = useState({});
+    const [skip, setSkip] = useState(false);
+    const [userLogin, setUserLogin] = useState({login: '321', pass: '123'});
+    //const { data, error, isLoading } = useGetSession({});
+
+    //const { data, error, isLoading } = useGetSession();
+    const { data, error, isError } = useGetSessionQuery( userLogin.login, { skip } );
   
     function fetchData(e) {
       e.preventDefault();
@@ -19,9 +26,15 @@ function LoginForm(props) {
           setCredentials(result);    
         },
         (error) => {          
-          setError(error);          
+          /*setError(error);*/      
         }
       );
+    }
+
+    const login = (e) => {
+      setSkip(false);
+      setUserLogin({ login: e.target.elements.login.value, pass: e.target.elements.password.value });
+      console.log(login.login);
     }
   
     useEffect(() => {          
@@ -31,7 +44,7 @@ function LoginForm(props) {
     return (
       <ThemeProvider theme={theme}>      
         <Paper className={classes.root} variant="outlined" square elevation={3} >
-          <form className={classes.root} noValidate autoComplete="off" onSubmit={fetchData}>          
+          <form className={classes.root} noValidate autoComplete="off" onSubmit={login}>          
             <Typography>Вход в систему</Typography>
             {!error || <Typography variant="subtitle1">Ошибка загрузки данных</Typography>}
             {!props.isAuth || <Typography variant="subtitle1">{props.userName}</Typography>}
