@@ -16,8 +16,6 @@ const store = createStore(rootReducer, compose(
 ));
 */
 
-// Комментарий123
-
 const store = configureStore({
   reducer: {
     user: userReducer,
