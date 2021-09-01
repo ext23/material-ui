@@ -11,12 +11,13 @@ function LoginForm(props) {
     //const [error, setError] = useState(null);    
     const [credentials, setCredentials] = useState({});
     const [skip, setSkip] = useState(false);
-    const [userLogin, setUserLogin] = useState({login: '321', pass: '123'});
+    const [userLogin, setUserLogin] = useState({login: '1', pass: '2'});
     //const { data, error, isLoading } = useGetSession({});
 
     //const { data, error, isLoading } = useGetSession();
     const { data, error, isError } = useGetSessionQuery( userLogin.login, { skip } );
   
+    /*
     function fetchData(e) {
       e.preventDefault();
       fetch("http://89.17.51.75:4089/carpfishing_test/hs/v1/session?username=" + e.target.elements.login.value + "&password=" + e.target.elements.password.value)
@@ -26,18 +27,18 @@ function LoginForm(props) {
           setCredentials(result);    
         },
         (error) => {          
-          /*setError(error);*/      
+          setError(error);
         }
       );
     }
+    */
 
     const login = (e) => {
-      setSkip(false);
+      setSkip(false);      
       setUserLogin({ login: e.target.elements.login.value, pass: e.target.elements.password.value });
-      console.log(login.login);
     }
   
-    useEffect(() => {          
+    useEffect(() => {                
       if (credentials.userName) {props.createUser(credentials)} else props.initUser();
     });
   

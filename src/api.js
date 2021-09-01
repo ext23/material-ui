@@ -5,7 +5,7 @@ export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://89.17.51.75:4089/carpfishing_test/hs/v1/' }),
     endpoints: (build) => ({
         getSession: build.query({
-            query: (user) => ({ url: `session?username=${user}&password=${user.pass}` }),
+            query: (user) => ({ url: `session?username=${user}&password=${user}` }),
         }),
     })
 })
