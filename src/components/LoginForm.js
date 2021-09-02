@@ -5,41 +5,24 @@ import { Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { createUser, initUser } from '../redux/action';
 import { useGetSessionQuery } from '../api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function LoginForm(props) {
     const classes = useStyles();
-    //const [error, setError] = useState(null);    
     const [credentials, setCredentials] = useState({});
-    const [skip, setSkip] = useState(false);
-    const [userLogin, setUserLogin] = useState({login: '1', pass: '2'});
-    //const { data, error, isLoading } = useGetSession({});
-
-    //const { data, error, isLoading } = useGetSession();
-    const { data, error, isError } = useGetSessionQuery( userLogin.login, { skip } );
+    const [skip, setSkip] = useState(true);
+    const [userLogin, setUserLogin] = useState({login: '', pass: ''});
+    const { data, error, isLoading } = useGetSessionQuery( { login: userLogin.login, pass: userLogin.pass } , { skip });
   
-    /*
-    function fetchData(e) {
-      e.preventDefault();
-      fetch("http://89.17.51.75:4089/carpfishing_test/hs/v1/session?username=" + e.target.elements.login.value + "&password=" + e.target.elements.password.value)
-      .then(res => res.json())
-      .then(
-        (result) => {          
-          setCredentials(result);    
-        },
-        (error) => {          
-          setError(error);
-        }
-      );
-    }
-    */
-
     const login = (e) => {
+      e.preventDefault();
       setSkip(false);      
-      setUserLogin({ login: e.target.elements.login.value, pass: e.target.elements.password.value });
+      setUserLogin({ login: e.target.elements.login.value, pass: e.target.elements.password.value });      
     }
   
-    useEffect(() => {                
-      if (credentials.userName) {props.createUser(credentials)} else props.initUser();
+    useEffect(() => {      
+      setCredentials(data);          
+      if (credentials && credentials.userName) {props.createUser(credentials)} else props.initUser();      
     });
   
     return (
@@ -47,7 +30,11 @@ function LoginForm(props) {
         <Paper className={classes.root} variant="outlined" square elevation={3} >
           <form className={classes.root} noValidate autoComplete="off" onSubmit={login}>          
             <Typography>Вход в систему</Typography>
-            {!error || <Typography variant="subtitle1">Ошибка загрузки данных</Typography>}
+            
+            {!isLoading || <CircularProgress /> }
+            {!error || <Typography variant="subtitle1">Ошибка загрузки данных: {error.status}</Typography>}
+            {!data || <Typography variant="subtitle1">{data.userName}</Typography>}                                                      
+
             {!props.isAuth || <Typography variant="subtitle1">{props.userName}</Typography>}
             <TextField className={classes.login} id="login" label="Логин" variant="outlined"></TextField>
             <TextField className={classes.login} id="password" label="Пароль" variant="outlined" type="password"></TextField>
@@ -67,6 +54,7 @@ const mapStateToProps = state => {
   return {
     isAuth: state.user.isAuth,
     userName: state.user.userName,
+    matchId: state.user.matchId,
   };
 }
 
