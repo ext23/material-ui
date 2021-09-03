@@ -7,15 +7,15 @@ const Teams = (props) => {
     const { data, error, isLoading } = useGetTeamsQuery( {matchId: props.matchId} );
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 100},
-        { field: 'name', headerName: 'Название команды', width: 320},
-        { field: 'checkin', headerName: 'Зарегистрирована', width: 200, type: 'boolean'},
-        { field: 'pin', headerName: 'Пин-код', width: 320},
-        { field: 'pin2', headerName: 'Пин-код (резерв)', width: 320},
+        { field: 'id', headerName: 'ID'},
+        { field: 'name', headerName: 'Название команды', width: 250 },
+        { field: 'checkin', headerName: 'Зарегистрирована', width: 210, type: 'boolean' },
+        { field: 'pin', headerName: 'Пин-код', width: 200 },
+        { field: 'pin2', headerName: 'Пин-код (резерв)', width: 200 },
     ];
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div>
             <h1>Список команд</h1>      
             {error ? (
                 <>error</>
@@ -23,10 +23,10 @@ const Teams = (props) => {
                 <>Загрузка...</>
                 ) : data ? (
                     <DataGrid
+                        autoHeight
                         rows={data.teams}
                         columns={columns}   
-                        pageSize={5}
-                        checkboxSelection                        
+                        pageSize={20}                                                
                     >
                     </DataGrid>
                 ) : null
