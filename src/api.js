@@ -7,10 +7,17 @@ export const api = createApi({
         getSession: build.query({
             query: (arg) => ({ url: `session?username=${arg.login}&password=${arg.pass}`}),
         }),
-        getTeams: build.query(        {
+        getTeams: build.query({
             query: (arg) => ({ url: `teams?match=${arg.matchId}`}),
+        }),
+        getTeamDetails: build.query({
+            query: (arg) => ( { url: `teams?match=${arg.matchId}&team=${arg.teamId}`}),
         }),
     })
 })
 
-export const { useGetSessionQuery, useGetTeamsQuery } = api;
+export const { 
+    useGetSessionQuery, 
+    useGetTeamsQuery,
+    useGetTeamDetailsQuery
+} = api;

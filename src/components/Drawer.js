@@ -25,7 +25,7 @@ export default function DrawerMenu(props) {
         <div>
             <List>
                 {
-                    props.routes.map(item => (
+                    props.routes.filter(route => route.icon).map(item => (
                         <StyledLink to={item.path} style={{ textDecoration: 'none' }}>
                             <ListItem button key={item.anchor}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
